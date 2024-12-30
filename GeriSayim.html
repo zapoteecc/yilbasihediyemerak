@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geri Sayım</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        .countdown {
+            font-size: 48px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Sabrım Tükeniyor</h1>
+    <div id="countdown" class="countdown"></div>
+
+    <script>
+        // Hedef saat: Bugün 17:00 (TSİ)
+        function getTargetTime() {
+            const now = new Date();
+            const targetTime = new Date(now);
+            targetTime.setHours(17, 0, 0, 0);  // Saat: 17:00:00
+
+            if (now > targetTime) {
+                // Eğer saat şu an 17:00'yi geçmişse, yarına 17:00'yi hedefle
+                targetTime.setDate(now.getDate() + 1);
+            }
+
+            return targetTime;
+        }
+
+        // Geri sayımı güncelleyen fonksiyon
+        function updateCountdown() {
+            const targetTime = getTargetTime();
+            const now = new Date();
+            const timeRemaining = targetTime - now;
+
+            if (timeRemaining <= 0) {
+                document.getElementById('countdown').innerHTML = "Geri sayım tamamlandı!";
+                return;
+            }
+
+            const hours = Math.floor((timeRemaining / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((timeRemaining / (1000 * 60)) % 60);
+            const seconds = Math.floor((timeRemaining / 1000) % 60);
+
+            document.getElementById('countdown').innerHTML = 
+                `${hours} saat ${minutes} dakika ${seconds} saniye`;
+        }
+
+        // Sayacı her saniye güncelle
+        setInterval(updateCountdown, 1000);
+    </script>
+
+</body>
+</html>
